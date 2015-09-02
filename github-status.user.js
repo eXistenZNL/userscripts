@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name        Github Status
 // @namespace   eXistenZNL
-// @description Display the Github status as favicon
+// @description Changes the colour of the main Github octocat icon according to status.github.com
 // @include     https://*github.com/*
-// @version     1.0.0
+// @version     1.0.1
 // @grant       none
 // ==/UserScript==
 
