@@ -1,23 +1,30 @@
 // ==UserScript==
-// @name        Github Status
+// @name        GitHub Status
 // @namespace   eXistenZNL
-// @description Changes the colour of the main Github octocat icon according to status.github.com
+// @description Changes the colour of the Github favicon according to status.github.com
 // @include     https://*github.com/*
-// @version     1.0.1
+// @version     2.0.0
 // @grant       none
 // ==/UserScript==
 
 (function($) {
+
+  var $favicon = $('link[rel~="icon"]');
+  if ($favicon.length == 0) {
+    $favicon = $('<link rel="shortcut icon"></link>');
+    $('head').append($link);
+  }
+
+  var colors = {
+    'good': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABelBMVEUni1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1Ini1KkQ/2uAAAAfXRSTlMABgcJCgsMDQ4PESAhJCUmJykqKywvMzY6Oz9AQUJDR0hJTE9TWVxdX2FiY2RlZmdsbnBzdHl7hIaJjI+QkZKTlJWXmJmbnJ2eoqSlpqeoqaqwsbO0v8bIys3P0NHS09XX2Nna3ODj5efp6uvs7e7v8vP09fb3+Pn6+/z9/iWgpFkAAAGXSURBVHjabZJnW8IwFIWvG1QURVFI3YqIoogbBw5cCC7cggO34kKmNv/d9LYPpQ3vh+T2nNOktwmoGN2hq49s9iMWchuBx7KXogVS4SadXRnIUQ25QKXm9TjliDerfvs7LUGiDRRaPlHgExZAqqT1Uwmt+ZVhw00FBtYkYYs4I79sFkU2/B44yY6kruAH5qVyghDi8rl7CekdnhtiD9PYi9TtPpUYJzq8KIcBjGmsZvUBH8o/BnBjkR/TBzx5NFwQlpciHIdoBCEqB/nAKBqXgD8pTXg6RMl5gyz+M1KCJJ4r4ClmCI+QlwPyOfTzAQca73CN8wwfmEcjCrvyzO9wo7Q5QhGfPuCX9SGoTWLx5xeK7c51EeVvA8Amm4/OKH1YdgqK6wo8UplNAGhkjcb6Nijjrlvye+7Vq9sAjFVWnQnH6plPFgJ++crfstIrTC16lC260FSvHJieKX0aICqK/2IChdYEpdnTyIk28GqFAvUXKGkC53VQRPlSRhvILJSBFnMwqQaS2ybgqR40W212u81qdtSo6j+qXf4NFzGDhwAAAABJRU5ErkJggg==",
+    'minor': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABelBMVEXynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVDynVBNO5PpAAAAfXRSTlMABgcJCgsMDQ4PESAhJCUmJykqKywvMzY6Oz9AQUJDR0hJTE9TWVxdX2FiY2RlZmdsbnBzdHl7hIaJjI+QkZKTlJWXmJmbnJ2eoqSlpqeoqaqwsbO0v8bIys3P0NHS09XX2Nna3ODj5efp6uvs7e7v8vP09fb3+Pn6+/z9/iWgpFkAAAGXSURBVHjabZJnW8IwFIWvG1QURVFI3YqIoogbBw5cCC7cggO34kKmNv/d9LYPpQ3vh+T2nNOktwmoGN2hq49s9iMWchuBx7KXogVS4SadXRnIUQ25QKXm9TjliDerfvs7LUGiDRRaPlHgExZAqqT1Uwmt+ZVhw00FBtYkYYs4I79sFkU2/B44yY6kruAH5qVyghDi8rl7CekdnhtiD9PYi9TtPpUYJzq8KIcBjGmsZvUBH8o/BnBjkR/TBzx5NFwQlpciHIdoBCEqB/nAKBqXgD8pTXg6RMl5gyz+M1KCJJ4r4ClmCI+QlwPyOfTzAQca73CN8wwfmEcjCrvyzO9wo7Q5QhGfPuCX9SGoTWLx5xeK7c51EeVvA8Amm4/OKH1YdgqK6wo8UplNAGhkjcb6Nijjrlvye+7Vq9sAjFVWnQnH6plPFgJ++crfstIrTC16lC260FSvHJieKX0aICqK/2IChdYEpdnTyIk28GqFAvUXKGkC53VQRPlSRhvILJSBFnMwqQaS2ybgqR40W212u81qdtSo6j+qXf4NFzGDhwAAAABJRU5ErkJggg==",
+    'major': "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAMAAABEpIrGAAABelBMVEW9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAC9LAA6PnCCAAAAfXRSTlMABgcJCgsMDQ4PESAhJCUmJykqKywvMzY6Oz9AQUJDR0hJTE9TWVxdX2FiY2RlZmdsbnBzdHl7hIaJjI+QkZKTlJWXmJmbnJ2eoqSlpqeoqaqwsbO0v8bIys3P0NHS09XX2Nna3ODj5efp6uvs7e7v8vP09fb3+Pn6+/z9/iWgpFkAAAGXSURBVHjabZJnW8IwFIWvG1QURVFI3YqIoogbBw5cCC7cggO34kKmNv/d9LYPpQ3vh+T2nNOktwmoGN2hq49s9iMWchuBx7KXogVS4SadXRnIUQ25QKXm9TjliDerfvs7LUGiDRRaPlHgExZAqqT1Uwmt+ZVhw00FBtYkYYs4I79sFkU2/B44yY6kruAH5qVyghDi8rl7CekdnhtiD9PYi9TtPpUYJzq8KIcBjGmsZvUBH8o/BnBjkR/TBzx5NFwQlpciHIdoBCEqB/nAKBqXgD8pTXg6RMl5gyz+M1KCJJ4r4ClmCI+QlwPyOfTzAQca73CN8wwfmEcjCrvyzO9wo7Q5QhGfPuCX9SGoTWLx5xeK7c51EeVvA8Amm4/OKH1YdgqK6wo8UplNAGhkjcb6Nijjrlvye+7Vq9sAjFVWnQnH6plPFgJ++crfstIrTC16lC260FSvHJieKX0aICqK/2IChdYEpdnTyIk28GqFAvUXKGkC53VQRPlSRhvILJSBFnMwqQaS2ybgqR40W212u81qdtSo6j+qXf4NFzGDhwAAAABJRU5ErkJggg=="
+  }
+
   $.get(
     'https://status.github.com/api/status.json',
     function(data) {
-      colors = {
-        'good': '#396',
-        'minor': '#f29d50',
-        'major': '#c30'
-      };
-      $logo = $('.header-logo-invertocat .octicon-mark-github');
-      $logo.css('color', colors[data.status]);
+      $favicon.attr('href', colors[data.status]);
     }
   );
 })(jQuery);
