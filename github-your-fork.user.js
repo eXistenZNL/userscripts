@@ -1,10 +1,12 @@
 // ==UserScript==
 // @name        GitHub Your Fork
-// @namespace   https://github.com
+// @icon        https://github.com/eXistenZNL/userscripts/raw/master/icons/github.png
+// @namespace   eXistenZNL
 // @description Shows a 'your fork is at' link below the title
 // @include     https://*github.com/*
-// @version     1.0.4
-// @grant        none
+// @version     1.0.5
+// @grant       none
+// @require     https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
 
 (function($) {

@@ -1,9 +1,10 @@
 // ==UserScript==
-// @name        Github Status
+// @name        GitHub Status
+// @icon        https://github.com/eXistenZNL/userscripts/raw/master/icons/github.png
 // @namespace   eXistenZNL
 // @description Changes the colour of the main Github octocat icon according to status.github.com
 // @include     https://*github.com/*
-// @version     3.0.0
+// @version     3.0.1
 // @grant       none
 // @require     https://ajax.googleapis.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
@@ -22,4 +23,3 @@
     }
   );
 })(jQuery);
-
